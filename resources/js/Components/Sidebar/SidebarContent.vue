@@ -14,6 +14,16 @@
             </template>
         </SidebarLink>
 
+        <SidebarLink
+            title="Carteiras"
+            :href="route('wallet.index')"
+            :active="route().current('wallet.index')"
+        >
+            <template #icon>
+                <WalletIcon class="flex-shrink-0 w-6 h-6" aria-hidden="true" />
+            </template>
+        </SidebarLink>
+
         <SidebarCollapsible title="Components" :active="route().current('components.*')">
             <template #icon>
                 <TemplateIcon class="flex-shrink-0 w-6 h-6" aria-hidden="true" />
@@ -27,7 +37,7 @@
         </SidebarCollapsible>
 
         <!-- Examples -->
-        <!-- 
+        <!--
         => External link example
         <SidebarLink
             title="Github"
@@ -60,7 +70,7 @@
 <script setup>
 import PerfectScrollbar from '@/Components/PerfectScrollbar.vue'
 import SidebarLink from '@/Components/Sidebar/SidebarLink.vue'
-import { DashboardIcon } from '@/Components/Icons/outline'
+import { DashboardIcon, WalletIcon } from '@/Components/Icons/outline'
 import SidebarCollapsible from '@/Components/Sidebar/SidebarCollapsible.vue'
 import SidebarCollapsibleItem from '@/Components/Sidebar/SidebarCollapsibleItem.vue'
 import { TemplateIcon } from "@heroicons/vue/outline";
