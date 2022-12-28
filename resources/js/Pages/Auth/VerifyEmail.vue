@@ -1,17 +1,15 @@
 <template>
     <GuestLayout title="Email Verification">
         <div class="mb-4 text-sm text-gray-600 dark:text-gray-400">
-            Thanks for signing up! Before getting started, could you verify your
-            email address by clicking on the link we just emailed to you? If you
-            didn't receive the email, we will gladly send you another.
+            Obrigado por se cadastrar! acesse seu E-mail e clique no link que te enviamos
+            para confirmar sua conta
         </div>
 
         <div
             class="mb-4 text-sm font-medium text-green-600"
             v-if="verificationLinkSent"
         >
-            A new verification link has been sent to the email address you provided
-            during registration.
+            Um novo link de verificação foi enviado para o E-mail informado!
         </div>
 
         <form @submit.prevent="submit">
@@ -20,7 +18,7 @@
                     :class="{ 'opacity-25': form.processing }"
                     :disabled="form.processing"
                 >
-                    Resend Verification Email
+                    Reenviar E-mail de verificação
                 </Button>
 
                 <Link
@@ -29,7 +27,7 @@
                     as="button"
                     class="text-sm text-blue-600 hover:underline dark:text-blue-400"
                 >
-                    Log Out
+                   Sair
                 </Link>
             </div>
         </form>

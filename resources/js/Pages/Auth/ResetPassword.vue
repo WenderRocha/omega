@@ -1,11 +1,11 @@
 <template>
-    <GuestLayout title="Reset Password">
+    <GuestLayout title="Resetar Senha">
         <ValidationErrors class="mb-4" />
 
         <form @submit.prevent="submit">
             <div class="grid gap-4">
                 <div class="space-y-2">
-                    <Label for="email" value="Email" />
+                    <Label for="email" value="E-mail" />
                     <InputIconWrapper>
                         <template #icon>
                             <MailIcon aria-hidden="true" class="w-5 h-5" />
@@ -15,28 +15,28 @@
                 </div>
 
                 <div class="space-y-2">
-                    <Label for="password" value="Password" />
+                    <Label for="password" value="Senha" />
                     <InputIconWrapper>
                         <template #icon>
                             <LockClosedIcon aria-hidden="true" class="w-5 h-5" />
                         </template>
-                        <Input withIcon id="password" type="password" placeholder="Password" class="block w-full" v-model="form.password" required autocomplete="new-password" />
+                        <Input withIcon id="password" type="password" placeholder="Senha" class="block w-full" v-model="form.password" required autocomplete="new-password" />
                     </InputIconWrapper>
                 </div>
 
                 <div class="space-y-2">
-                    <Label for="password_confirmation" value="Confirm Password" />
+                    <Label for="password_confirmation" value="Confirmar Senha" />
                     <InputIconWrapper>
                         <template #icon>
                             <LockClosedIcon aria-hidden="true" class="w-5 h-5" />
                         </template>
-                        <Input withIcon id="password_confirmation" type="password" placeholder="Confirm Password" class="block w-full" v-model="form.password_confirmation" required autocomplete="new-password" />
+                        <Input withIcon id="password_confirmation" type="password" placeholder="Confirmar Senha" class="block w-full" v-model="form.password_confirmation" required autocomplete="new-password" />
                     </InputIconWrapper>
                 </div>
 
                 <div>
                     <Button class="w-full justify-center" :disabled="form.processing">
-                        Reset Password
+                        Resetar Senha
                     </Button>
                 </div>
             </div>

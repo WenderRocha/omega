@@ -1,5 +1,5 @@
 <template>
-    <GuestLayout title="Log in">
+    <GuestLayout title="Acesse ou cadastre-se é rapido e fácil!">
         <ValidationErrors class="mb-4" />
 
         <div v-if="status" class="mb-4 font-medium text-sm text-green-600">
@@ -9,47 +9,47 @@
         <form @submit.prevent="submit">
             <div class="grid gap-6">
                 <div class="space-y-2">
-                    <Label for="email" value="Email" />
+                    <Label for="email" value="E-mail" />
                     <InputIconWrapper>
                         <template #icon>
                             <MailIcon aria-hidden="true" class="w-5 h-5" />
                         </template>
-                        <Input withIcon id="email" type="email" class="block w-full" placeholder="Email" v-model="form.email" required autofocus autocomplete="username" />
+                        <Input withIcon id="email" type="email" class="block w-full" placeholder="E-mail" v-model="form.email" required autofocus autocomplete="username" />
                     </InputIconWrapper>
                 </div>
 
                 <div class="space-y-2">
-                    <Label for="password" value="Password" />
+                    <Label for="password" value="Senha" />
                     <InputIconWrapper>
                         <template #icon>
                             <LockClosedIcon aria-hidden="true" class="w-5 h-5" />
                         </template>
-                        <Input withIcon id="password" type="password" class="block w-full" placeholder="Password" v-model="form.password" required autocomplete="current-password" />
+                        <Input withIcon id="password" type="password" class="block w-full" placeholder="Senha" v-model="form.password" required autocomplete="current-password" />
                     </InputIconWrapper>
                 </div>
 
                 <div class="flex items-center justify-between">
                     <label class="flex items-center">
                         <Checkbox name="remember" v-model:checked="form.remember" />
-                        <span class="ml-2 text-sm text-gray-600">Remember me</span>
+                        <span class="ml-2 text-sm text-gray-600">Manter conectado</span>
                     </label>
 
                     <Link v-if="canResetPassword" :href="route('password.request')" class="text-sm text-blue-500 hover:underline">
-                        Forgot your password?
+                        Esqueceu a senha?
                     </Link>
                 </div>
 
                 <div>
                     <Button class="justify-center gap-2 w-full" :disabled="form.processing" v-slot="{iconSizeClasses}">
                         <LoginIcon aria-hidden="true" :class="iconSizeClasses" />
-                        <span>Log in</span>
+                        <span>Entrar</span>
                     </Button>
                 </div>
 
                 <p class="text-sm text-gray-600 dark:text-gray-400">
-                    Don't have an account?
+                    Não tem um conta ?
                     <Link :href="route('register')" class="text-blue-500 hover:underline">
-                        Register
+                        Cadastre-se
                     </Link>
                 </p>
             </div>
