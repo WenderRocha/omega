@@ -26,6 +26,7 @@
     },
     "dependencies": {
         "flowbite": "^1.5.5",
-        "flowbite-vue": "^0.0.10"
+        "flowbite-vue": "^0.0.10",
+        "vue-currency-input": "^3.0.3"
     }
 }
