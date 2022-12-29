@@ -6,10 +6,6 @@
     <div class="noWalletContent flex flex-col justify-center items-center ">
         <h4 class="mt-10 mb-5 text-md font-semibold leading-tight">Crie e gerencie suas carteiras</h4>
         <p class="noWalletDescription">Organize suas contas de diferentes fontes como Minha Casa para PF, Minha Empresa para PJ, ou ainda Quotex para organizar sua conta de opções binárias. Controle tudo...</p>
-        <Button  class="mt-10 items-center gap-2 max-w-xs" v-slot="{ iconSizeClasses }">
-            <WalletIcon aria-hidden="true" :class="iconSizeClasses" />
-            <span>Abrir carteira</span>
-        </Button>
     </div>
     <!--START NO WALLET CREATED-->
 </template>
@@ -18,6 +14,7 @@
 import Button from '@/Components/Button.vue'
 import { WalletIcon } from '@/Components/Icons/outline'
 </script>
+
 
 <style scoped>
 .noWalletSvg{
