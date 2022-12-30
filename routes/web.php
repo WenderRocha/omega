@@ -30,6 +30,8 @@ Route::get('/dashboard', function () {
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::get('/wallet', [WalletController::class, 'index'])->middleware(['auth', 'verified'])->name('wallet.index');
+Route::post('/wallet', [WalletController::class, 'store'])->middleware(['auth', 'verified'])->name('wallet.store');
+
 
 Route::get('/components/buttons', function () {
     return Inertia::render('Components/Buttons');

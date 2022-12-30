@@ -7,7 +7,7 @@ import { useCurrencyInput } from 'vue-currency-input';
 import {Input} from 'flowbite-vue'
 
 const props = defineProps({
-    modelValue: Number, // Vue 2: value
+    modelValue: String|Number, // Vue 2: value
     options: Object,
     label: '',
     placeholder: ''

@@ -41,19 +41,14 @@
                         <div class="grid grid-cols-2 gap-4">
                             <!--Wallet name-->
                             <div class="mb-6">
-                                <div>
-                                    <label for="name"
-                                           class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Nome</label>
-                                    <input v-model="walletForm.name" type="text" id="name"
-                                           class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                           placeholder="Minha carteira" required>
-                                </div>
+                                <Input v-model="walletForm.name" label="Nome" placeholder="Minha carteira"/>
                             </div>
                             <!--Wallet name-->
 
                             <!--Wallet initial Balance-->
                             <div class="mb-6">
-                                <CurrencyInput v-model="initialBalance" label="Saldo inicial" placeholder="Saldo inicial"/>
+                                <CurrencyInput @keyup="calcTakePercentage" v-model="getInitialBalance"
+                                               label="Saldo inicial" placeholder="R$ 0,00"/>
                             </div>
                             <!--Wallet initial Balance-->
 
@@ -66,10 +61,10 @@
                             <div class="grid grid-cols-2 gap-4">
                                 <!--select management type -->
                                 <div class="mb-6">
-                                    <label for="countries"
-                                           class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Selecione
-                                        o tipo de Gerênciamento</label>
-                                    <select v-model="walletForm.managementType" id="countries"
+                                    <label for="management"
+                                           class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Gerênciamento</label>
+                                    <select @change="cleanTakeAndStopData" v-model="walletForm.managementType"
+                                            id="management"
                                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                                         <option value="fixed">Fixo</option>
                                         <option value="compound">Composto</option>
@@ -93,10 +88,10 @@
                             <!--management fixed-->
                             <div v-if="walletForm.managementType === 'fixed'" class="grid grid-cols-2 gap-4">
                                 <div class="mb-6">
-                                    <CurrencyInput v-model="walletForm.take" label="Take" placeholder="R$ 50,00"/>
+                                    <CurrencyInput v-model="getTake" label="Take" placeholder="R$ 50,00"/>
                                 </div>
                                 <div class="mb-6">
-                                    <CurrencyInput v-model="walletForm.stop" label="Stop" placeholder="R$ 25,00"/>
+                                    <CurrencyInput v-model="getStop" label="Stop" placeholder="R$ 25,00"/>
                                 </div>
                             </div>
                             <!--management fixed-->
@@ -105,35 +100,42 @@
                             <div v-if="walletForm.managementType === 'compound'" class="grid grid-cols-2 gap-4">
                                 <div class="mb-6">
                                     <div class="mb-6">
-                                        <label for="first_name"
+                                        <label for="take"
                                                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Take</label>
-                                        <input v-model="takeProfit" :disabled="true" type="text" id="first_name"
-                                               class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                               placeholder="R$ 0,00" required>
+                                        <input v-model="getTakeFormatted" type="text" id="take" disabled class="bg-gray-50
+                                        border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block
+                                        w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500
+                                        dark:focus:border-blue-500" placeholder="R$ 0,00" required>
+
                                     </div>
                                     <div class="mb-6">
                                         <label for="default-range"
                                                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Defina
-                                            a porcentagem: {{ walletForm.takePercentage }}%</label>
-                                        <input @change="calcTakePercentage = walletForm.takePercentage"
-                                               v-model="walletForm.takePercentage" id="default-range" type="range"
+                                            seu Take: <span class="font-semibold text-emerald-600">{{
+                                                    getTakePercentage
+                                                }}%</span></label>
+                                        <input @change="calcTakePercentage" v-model="getTakePercentage"
+                                               id="default-range" type="range"
                                                class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700">
                                     </div>
                                 </div>
                                 <div class="mb-6">
                                     <div class="mb-6">
-                                        <label for="first_name"
+                                        <label for="take"
                                                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Stop</label>
-                                        <input v-model="stopLoss" :disabled="true" type="text" id="first_name"
-                                               class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                               placeholder="R$ 0,00" required>
+                                        <input v-model="getStopFormatted" type="text" id="take" disabled class="bg-gray-50
+                                        border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block
+                                        w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500
+                                        dark:focus:border-blue-500" placeholder="R$ 0,00" required>
                                     </div>
                                     <div class="mb-6">
                                         <label for="default-range"
                                                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Defina
-                                            a porcentagem: {{ walletForm.stopPercentage }}%</label>
-                                        <input @change="calcStopPercentage = walletForm.stopPercentage"
-                                               v-model="walletForm.stopPercentage" id="default-range" type="range"
+                                            seu Stop: <span class="font-semibold text-red-600">{{
+                                                    getStopPercentage
+                                                }}%</span></label>
+                                        <input @change="calcStopPercentage" v-model="getStopPercentage"
+                                               id="default-range" type="range"
                                                class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700">
                                     </div>
                                 </div>
@@ -188,7 +190,8 @@
                                     class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600">
                                 Cancelar
                             </button>
-                            <Button :disabled="walletForm.processing" class="mt-5 items-center gap-2 max-w-xs" v-slot="{ iconSizeClasses }">
+                            <Button @click="submitWalletForm" :disabled="walletForm.processing"
+                                    class="mt-5 items-center gap-2 max-w-xs" v-slot="{ iconSizeClasses }">
                                 <WalletIcon v-if="!walletForm.processing" aria-hidden="true" :class="iconSizeClasses"/>
                                 <spinner v-else class="mr-2" color="white" size="8"/>
                                 <span v-if="!walletForm.processing">Criar carteira</span>
@@ -210,10 +213,14 @@ import Button from '@/Components/Button.vue'
 import {WalletIcon} from '@/Components/Icons/outline'
 import NoWalletCreated from "@/Components/Shared/NoWalletCreated.vue";
 import CurrencyInput from "@/Components/Shared/CurrencyInput.vue";
-import {Modal, Input, Spinner} from 'flowbite-vue'
+import {Modal, Input, Spinner} from 'flowbite-vue';
+import {useToast} from 'vue-toast-notification';
+import 'vue-toast-notification/dist/theme-sugar.css';
 
 import {computed, ref} from 'vue'
 import {useForm} from "@inertiajs/inertia-vue3";
+
+const $toast = useToast();
 
 //MODAL CONTENT
 const isShowModal = ref(false)
@@ -228,49 +235,24 @@ function showModal() {
 
 //MODAL CONTENT
 
-//START CALC TAKE PERCENTAGE
-const takeProfit = ref('0');
+const getInitialBalance = ref(0);
+
 const getTake = ref(0);
+const getTakeFormatted = ref('0');
 
-const calcTakePercentage = computed({
-    get() {
-        return walletForm.takePercentage;
-    },
-    set(val) {
-        walletForm.takePercentage = val;
-        getTake.value = (val / 100) * walletForm.initialBalance
-        takeProfit.value = getTake.value.toLocaleString('pt-BR', {style: 'currency', currency: 'BRL'});
-    }
-})
-//END CALC TAKE PERCENTAGE
-
-
-//START CALC STOP PERCENTAGE
-const stopLoss = ref('0');
 const getStop = ref(0);
+const getStopFormatted = ref('0');
 
-const calcStopPercentage = computed({
-    get() {
-        return walletForm.takePercentage;
-    },
-    set(val) {
-        walletForm.stopPercentage = val;
-        getStop.value = (val / 100) * walletForm.initialBalance
-        stopLoss.value = getStop.value.toLocaleString('pt-BR', {style: 'currency', currency: 'BRL'});
-    }
-})
-//END CALC STOP PERCENTAGE
-
+const getTakePercentage = ref(0);
+const getStopPercentage = ref(0);
 
 //START WALLET FORM
-const initialBalance = ref(150);
 const walletForm = useForm({
     name: '',
-    initialBalance: initialBalance.value,
-    balance: initialBalance.value,
-    take: getTake.value,
+    initialBalance: getInitialBalance,
+    take: getTake,
     takePercentage: 0,
-    stop: getStop.value,
+    stop: getStop,
     stopPercentage: 0,
     currency: 'BRL',
     managementType: 'fixed',
@@ -279,6 +261,59 @@ const walletForm = useForm({
     isMain: false
 })
 
+const cleanTakeAndStopData = () => {
+    getTake.value = 0;
+    getTakeFormatted.value = '0';
+
+    getStop.value = 0;
+    getStopFormatted.value = '0';
+
+    walletForm.takePercentage = 0;
+    getTakePercentage.value = 0;
+
+    walletForm.stopPercentage = 0;
+    getStopPercentage.value = 0;
+}
+
+const calcTakePercentage = () => {
+    let result = (getTakePercentage.value / 100) * getInitialBalance.value
+    getTake.value = result;
+    getTakeFormatted.value = result.toLocaleString('pt-br', {style: 'currency', currency: 'BRL'});
+    walletForm.take = result;
+    walletForm.takePercentage = getTakePercentage.value
+    walletForm.stopPercentage = getStopPercentage.value
+
+    calcStopPercentage()
+}
+
+const calcStopPercentage = () => {
+    let result = (getStopPercentage.value / 100) * getInitialBalance.value
+    getStop.value = result;
+    getStopFormatted.value = result.toLocaleString('pt-br', {style: 'currency', currency: 'BRL'});
+    walletForm.stop = result;
+    walletForm.stopPercentage = getStopPercentage.value
+    walletForm.takePercentage = getTakePercentage.value
+}
+
+function submitWalletForm() {
+    walletForm.post(`${route('wallet.store')}`, {
+        onSuccess: (page) => {
+            $toast.success('Carteira criada com sucesso!', {
+                // override the global option
+                position: 'top-right'
+            })
+        },
+        onError: (errors) => {
+            $toast.error(errors.message, {
+                // override the global option
+                position: 'top-right'
+            })
+        },
+    })
+}
+
 //START WALLET FORM
+
+
 </script>
 
