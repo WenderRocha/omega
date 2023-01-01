@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreWalletRequest;
+use App\Repositories\App\Wallet\WalletRepositoryInterface;
+use App\Services\App\Wallet\WalletServiceInterface;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
@@ -9,19 +12,26 @@ use Inertia\Response;
 class WalletController extends Controller
 {
 
-    public function index(): Response
+    public function __construct(
+        protected WalletServiceInterface $walletService
+    )
     {
-        return Inertia::render('App/Wallet');
     }
 
-    public function create()
-    {
-        //
+    public function index(){
+
+        $wallets = $this->walletService->getWalletsByUser();
+
+        return Inertia::render('App/Wallet', [
+            'wallets' => $wallets
+        ]);
     }
 
-    public function store(Request $request)
+    public function store(StoreWalletRequest $request)
     {
-        dd($request->all());
+
+
+        return $this->walletService->create($request->all());
     }
 
     public function show($id)
@@ -43,4 +53,6 @@ class WalletController extends Controller
     {
         //
     }
+
+
 }

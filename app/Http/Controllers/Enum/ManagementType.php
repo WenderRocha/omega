@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\App\Enum;
+namespace App\Http\Controllers\Enum;
 
 enum ManagementType: int
 {

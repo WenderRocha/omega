@@ -6,17 +6,33 @@
                     Carteiras
                 </h2>
 
-                <Button @click="showModal" class="mt-5 items-center gap-2 max-w-xs" v-slot="{ iconSizeClasses }">
-                    <WalletIcon aria-hidden="true" :class="iconSizeClasses"/>
-                    <span>Nova carteira</span>
-                </Button>
+                <div class="">
+                    <Button @click="showModal" class="mt-5 items-center gap-2 max-w-xs mr-4" v-slot="{ iconSizeClasses }">
+                        <WalletIcon aria-hidden="true" :class="iconSizeClasses"/>
+                        <span>Nova carteira</span>
+                    </Button>
+                    <Button type="secondary" class="mt-5 items-center gap-2 max-w-xs" v-slot="{ iconSizeClasses }">
+                        <WalletIcon aria-hidden="true" :class="iconSizeClasses"/>
+                        <span>Transação</span>
+                    </Button>
+                </div>
             </div>
         </template>
 
         <div class="p-6 overflow-hidden bg-white rounded-md shadow-md dark:bg-dark-eval-1">
 
+            <!--START SHOW WALLETS-->
+            <div class="grid md:grid-cols-3 gap-4">
+                <Wallet v-for="wallet in wallets"
+                        :key="wallet.id"
+                        :name="wallet.name"
+                        :type="wallet.isBinary"
+                        :initial-balance="wallet.initialBalance"/>
+            </div>
+            <!--END SHOW WALLETS-->
+
             <!--START NO WALLET CREATED-->
-            <div>
+            <div v-if="!props.wallets.length">
                 <NoWalletCreated/>
                 <div class="flex justify-center">
                     <Button @click="showModal" class="mt-5 items-center gap-2 max-w-xs" v-slot="{ iconSizeClasses }">
@@ -28,9 +44,9 @@
             <!--START NO WALLET CREATED-->
 
             <!--WALLET CREATED-->
-            <div>
+            <div >
                 <Modal v-if="isShowModal" @close="closeModal">
-                    <template #header>
+                    <template #header >
                         <div class="flex items-center text-lg">
                             {{ (walletForm.name === '') ? 'Nova Carteira' : walletForm.name }}
                         </div>
@@ -42,13 +58,18 @@
                             <!--Wallet name-->
                             <div class="mb-6">
                                 <Input v-model="walletForm.name" label="Nome" placeholder="Minha carteira"/>
+                                <div class="py-2 text-red-600" v-if="walletForm.errors.name">{{ walletForm.errors.name }}</div>
                             </div>
+
+
+
                             <!--Wallet name-->
 
                             <!--Wallet initial Balance-->
                             <div class="mb-6">
-                                <CurrencyInput @keyup="calcTakePercentage" v-model="getInitialBalance"
+                                <CurrencyInput @keyup="calcTakePercentage" v-model="walletForm.initialBalance"
                                                label="Saldo inicial" placeholder="R$ 0,00"/>
+                                <div class="py-2 text-red-600" v-if="walletForm.errors.initialBalance">{{ walletForm.errors.initialBalance }}</div>
                             </div>
                             <!--Wallet initial Balance-->
 
@@ -102,7 +123,7 @@
                                     <div class="mb-6">
                                         <label for="take"
                                                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Take</label>
-                                        <input v-model="getTakeFormatted" type="text" id="take" disabled class="bg-gray-50
+                                        <input v-model="getTakeFormatted" type="text" id="take" disabled class="font-semibold text-emerald-600 bg-gray-50
                                         border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block
                                         w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500
                                         dark:focus:border-blue-500" placeholder="R$ 0,00" required>
@@ -123,7 +144,7 @@
                                     <div class="mb-6">
                                         <label for="take"
                                                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Stop</label>
-                                        <input v-model="getStopFormatted" type="text" id="take" disabled class="bg-gray-50
+                                        <input v-model="getStopFormatted" type="text" id="take" disabled class="font-semibold text-red-600 bg-gray-50
                                         border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block
                                         w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500
                                         dark:focus:border-blue-500" placeholder="R$ 0,00" required>
@@ -150,7 +171,7 @@
                             <!--Wallet toggle is Binary-->
                             <div>
                                 <label class="inline-flex relative items-center cursor-pointer">
-                                    <input v-model="walletForm.isBinary" type="checkbox" value="" class="sr-only peer">
+                                    <input @click="walletForm.isMain = false" @change="cleanTakeAndStopData" v-model="walletForm.isBinary" type="checkbox"  class="sr-only peer">
                                     <div
                                         class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
                                     <span class="ml-3 text-sm font-medium text-gray-900 dark:text-gray-300">Opções Binárias</span>
@@ -159,9 +180,9 @@
                             <!--Wallet toggle is Binary-->
 
                             <!--Wallet is main-->
-                            <div>
+                            <div  v-if="!walletForm.isBinary">
                                 <label class="inline-flex relative items-center cursor-pointer">
-                                    <input v-model="walletForm.isMain" type="checkbox" value="" class="sr-only peer">
+                                    <input v-model="walletForm.isMain" type="checkbox"  class="sr-only peer">
                                     <div
                                         class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
                                     <span class="ml-3 text-sm font-medium text-gray-900 dark:text-gray-300">Carteira principal</span>
@@ -212,15 +233,23 @@ import AuthenticatedLayout from '@/Layouts/Authenticated.vue'
 import Button from '@/Components/Button.vue'
 import {WalletIcon} from '@/Components/Icons/outline'
 import NoWalletCreated from "@/Components/Shared/NoWalletCreated.vue";
+import Wallet from '@/Components/Shared/Wallet.vue'
 import CurrencyInput from "@/Components/Shared/CurrencyInput.vue";
 import {Modal, Input, Spinner} from 'flowbite-vue';
 import {useToast} from 'vue-toast-notification';
 import 'vue-toast-notification/dist/theme-sugar.css';
 
-import {computed, ref} from 'vue'
+import {computed, ref, useAttrs} from 'vue'
 import {useForm} from "@inertiajs/inertia-vue3";
 
+const props = defineProps({
+    wallets: Object
+})
+
+console.log(props.wallets.length)
+
 const $toast = useToast();
+const attrs = useAttrs();
 
 //MODAL CONTENT
 const isShowModal = ref(false)
@@ -246,10 +275,14 @@ const getStopFormatted = ref('0');
 const getTakePercentage = ref(0);
 const getStopPercentage = ref(0);
 
+
+
 //START WALLET FORM
 const walletForm = useForm({
+    user_id: attrs.auth.user.id,
     name: '',
-    initialBalance: getInitialBalance,
+    initialBalance: 0,
+    balance: 0,
     take: getTake,
     takePercentage: 0,
     stop: getStop,
@@ -276,7 +309,7 @@ const cleanTakeAndStopData = () => {
 }
 
 const calcTakePercentage = () => {
-    let result = (getTakePercentage.value / 100) * getInitialBalance.value
+    let result = (getTakePercentage.value / 100) * walletForm.initialBalance
     getTake.value = result;
     getTakeFormatted.value = result.toLocaleString('pt-br', {style: 'currency', currency: 'BRL'});
     walletForm.take = result;
@@ -287,7 +320,7 @@ const calcTakePercentage = () => {
 }
 
 const calcStopPercentage = () => {
-    let result = (getStopPercentage.value / 100) * getInitialBalance.value
+    let result = (getStopPercentage.value / 100) * walletForm.initialBalance
     getStop.value = result;
     getStopFormatted.value = result.toLocaleString('pt-br', {style: 'currency', currency: 'BRL'});
     walletForm.stop = result;
@@ -295,16 +328,24 @@ const calcStopPercentage = () => {
     walletForm.takePercentage = getTakePercentage.value
 }
 
-function submitWalletForm() {
+const submitWalletForm = () => {
+
+    walletForm.balance = walletForm.initialBalance
     walletForm.post(`${route('wallet.store')}`, {
         onSuccess: (page) => {
             $toast.success('Carteira criada com sucesso!', {
                 // override the global option
                 position: 'top-right'
             })
+
+            walletForm.reset();
+            cleanTakeAndStopData();
+            closeModal();
         },
         onError: (errors) => {
-            $toast.error(errors.message, {
+
+            let message = (errors.message) ?? 'Oops, Algo deu errado'
+            $toast.error(message, {
                 // override the global option
                 position: 'top-right'
             })

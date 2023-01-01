@@ -10,18 +10,26 @@ class Wallet extends Model
     use HasFactory;
 
     protected $fillable = [
-      "name",
-      "initialBalance",
-      "take",
-      "takePercentage",
-      "stop",
-      "stopPercentage",
-      "qtdWin",
-      "qtdLoss",
-      "currency",
-      "managementType",
-      "addToTotals",
-      "isBinary",
-      "isMain",
+      'user_id',
+      'name',
+      'initialBalance',
+      'balance',
+      'take',
+      'takePercentage',
+      'stop',
+      'stopPercentage',
+      'qtdWin',
+      'qtdLoss',
+      'currency',
+      'managementType',
+      'addToTotals',
+      'isBinary',
+      'isMain',
     ];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
 }
