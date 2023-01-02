@@ -25,9 +25,11 @@
         "vue": "^3.2.41"
     },
     "dependencies": {
+        "apexcharts": "^3.36.3",
         "flowbite": "^1.5.5",
         "flowbite-vue": "^0.0.10",
         "vue-currency-input": "^3.0.3",
-        "vue-toast-notification": "^3.0.4"
+        "vue-toast-notification": "^3.0.4",
+        "vue3-apexcharts": "^1.4.1"
     }
 }

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ManagementController;
 use App\Http\Controllers\WalletController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -30,7 +31,9 @@ Route::get('/dashboard', function () {
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::get('/wallet', [WalletController::class, 'index'])->middleware(['auth', 'verified'])->name('wallet.index');
+Route::get('/wallet/{id}', [WalletController::class, 'show'])->middleware(['auth', 'verified'])->name('wallet.show');
 Route::post('/wallet', [WalletController::class, 'store'])->middleware(['auth', 'verified'])->name('wallet.store');
+Route::get('/management/{id}', [ManagementController::class, 'index'])->middleware(['auth', 'verified'])->name('management.index');
 
 
 Route::get('/components/buttons', function () {

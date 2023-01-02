@@ -54,4 +54,10 @@ class WalletService implements WalletServiceInterface
     {
         return Auth::user()->wallets;
     }
+
+    public function getWalletsByUserWhere(int $id)
+    {
+      return  Auth::user()->wallets->where('id', $id)->first();
+
+    }
 }

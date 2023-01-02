@@ -23,7 +23,7 @@
                 </div>
             </div>
             <div class="flex mt-4 space-x-3 md:mt-6">
-                <Button class="bg-purple-800">
+                <Button :href="route('wallet.show', id)" class="bg-purple-800">
                     <span>Gerênciar</span>
                 </Button>
             </div>
@@ -35,6 +35,7 @@
 import Button from '@/Components/Button.vue'
 
 const props = defineProps({
+    id: Number,
     name: String,
     type: Number,
     initialBalance: Number|String,
