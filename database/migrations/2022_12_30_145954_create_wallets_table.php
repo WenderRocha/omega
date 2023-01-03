@@ -25,6 +25,7 @@ return new class extends Migration
             $table->string('name');
             $table->decimal('initialBalance', 12, 2);
             $table->decimal('balance', 12, 2);
+            $table->decimal('result', 12, 2)->default(0);
             $table->decimal('take', 12, 2)->default(10,00);
             $table->integer('takePercentage')->default(0)->nullable();
             $table->decimal('stop', 12, 2)->default(5,00);

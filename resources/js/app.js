@@ -1,5 +1,6 @@
 import './bootstrap';
 import '../css/app.css';
+import 'v-calendar/dist/style.css';
 
 import { createApp, h } from 'vue';
 import { createInertiaApp } from '@inertiajs/inertia-vue3';
@@ -7,6 +8,7 @@ import { InertiaProgress } from '@inertiajs/progress';
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
 import { ZiggyVue } from '../../vendor/tightenco/ziggy/dist/vue.m';
 import VueApexCharts from "vue3-apexcharts";
+import VCalendar from 'v-calendar';
 
 const appName = window.document.getElementsByTagName('title')[0]?.innerText || 'K UI';
 
@@ -18,6 +20,7 @@ createInertiaApp({
             .use(plugin)
             .use(ZiggyVue, Ziggy)
             .use(VueApexCharts)
+            .use(VCalendar, {})
             .mount(el);
     },
 });

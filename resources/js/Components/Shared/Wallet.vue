@@ -12,10 +12,10 @@
                                  R$ {{ initialBalance.toLocaleString('pt-br', {style: 'currency', currency: 'BRL'}) }}
                             </span>
                     <span class="bg-yellow-100 text-yellow-800 text-sm font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-yellow-200 dark:text-yellow-900" title="Lucro / Prejuizo">
-                               + R$ 00,00
+                               R$ {{ balance.toLocaleString('pt-br', {style: 'currency', currency: 'BRL'}) }}
                             </span>
                     <span v-show="true" class="bg-green-100 text-green-800 text-sm font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-green-200 dark:text-green-900" title="Saldo atual">
-                                R$ {{ initialBalance.toLocaleString('pt-br', {style: 'currency', currency: 'BRL'}) }}
+                               + R$ {{ result.toLocaleString('pt-br', {style: 'currency', currency: 'BRL'}) }}
                             </span>
                     <span v-show="false" class="bg-red-100 text-red-800 text-sm font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-red-200 dark:text-red-900">
                                  R$ 50,00
@@ -40,6 +40,7 @@ const props = defineProps({
     type: Number,
     initialBalance: Number|String,
     balance: Number|String,
+    result: Number|String,
     isMain: Number
 })
 </script>

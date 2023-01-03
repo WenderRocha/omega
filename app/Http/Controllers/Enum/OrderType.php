@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers\Enum;
 
-enum OrderType
+enum OrderType: string
 {
-    case CALL;
-    case PUT;
+    case CALL = 'call';
+    case PUT = 'put';
 }

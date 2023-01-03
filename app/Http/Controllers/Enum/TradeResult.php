@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers\Enum;
 
-enum TradeResult
+enum TradeResult: string
 {
-    case WIN;
-    case LOSS;
-    case DRAW;
+    case WIN = 'win';
+    case LOSS = 'loss';
+    case DRAW = 'draw';
 }

@@ -15,4 +15,5 @@ interface WalletServiceInterface
     public function delete(int $id);
 
     public function getWalletsByUser();
+
 }

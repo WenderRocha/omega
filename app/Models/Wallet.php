@@ -14,6 +14,7 @@ class Wallet extends Model
       'name',
       'initialBalance',
       'balance',
+       'result',
       'take',
       'takePercentage',
       'stop',
@@ -31,5 +32,11 @@ class Wallet extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public function managements()
+    {
+        return $this->hasMany(Management::class);
+    }
+
 
 }

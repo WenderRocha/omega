@@ -2,6 +2,8 @@
 
 namespace App\Services\App\Wallet;
 
+use App\Repositories\App\Management\ManagementRepository;
+use App\Repositories\App\Management\ManagementRepositoryInterface;
 use App\Repositories\App\Wallet\WalletRepositoryInterface;
 use Illuminate\Support\Facades\Auth;
 
@@ -10,7 +12,8 @@ class WalletService implements WalletServiceInterface
 {
 
     public function __construct(
-        protected WalletRepositoryInterface $walletRepository
+        protected WalletRepositoryInterface $walletRepository,
+        protected ManagementRepositoryInterface $managementRepository
     ){}
 
     public function find(int $id)
@@ -60,4 +63,5 @@ class WalletService implements WalletServiceInterface
       return  Auth::user()->wallets->where('id', $id)->first();
 
     }
+
 }

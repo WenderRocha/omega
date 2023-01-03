@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ManagementController;
+use App\Http\Controllers\TradeController;
 use App\Http\Controllers\WalletController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -32,8 +33,11 @@ Route::get('/dashboard', function () {
 
 Route::get('/wallet', [WalletController::class, 'index'])->middleware(['auth', 'verified'])->name('wallet.index');
 Route::get('/wallet/{id}', [WalletController::class, 'show'])->middleware(['auth', 'verified'])->name('wallet.show');
+Route::get('/wallet/{id}/book', [ManagementController::class, 'book'])->middleware(['auth', 'verified'])->name('management.book');
 Route::post('/wallet', [WalletController::class, 'store'])->middleware(['auth', 'verified'])->name('wallet.store');
-Route::get('/management/{id}', [ManagementController::class, 'index'])->middleware(['auth', 'verified'])->name('management.index');
+
+Route::get('/trade', [TradeController::class, 'index'])->middleware(['auth', 'verified'])->name('trade.index');
+Route::post('/trade', [TradeController::class, 'store'])->middleware(['auth', 'verified'])->name('trade.store');
 
 
 Route::get('/components/buttons', function () {

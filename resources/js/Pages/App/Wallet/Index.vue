@@ -22,7 +22,9 @@
                         :id="wallet.id"
                         :name="wallet.name"
                         :type="wallet.isBinary"
-                        :initial-balance="wallet.initialBalance"/>
+                        :initial-balance="wallet.initialBalance"
+                        :balance="wallet.balance"
+                        :result="wallet.result" />
             </div>
             <!--END SHOW WALLETS-->
 
