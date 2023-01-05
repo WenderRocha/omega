@@ -16,4 +16,9 @@ class ManagementRepository extends BaseRepository implements ManagementRepositor
     {
         return $this->management->where('date', $date)->first();
     }
+
+    public function getTotalValueByColumn(string $column)
+    {
+        return $this->management->sum($column);
+    }
 }

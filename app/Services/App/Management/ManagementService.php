@@ -44,7 +44,7 @@ class ManagementService implements ManagementServiceInterface
        return $this->managementRepository->getByDate($date);
     }
 
-    public function createDefaultManagement(int $walletId)
+    public function createDefaultManagement(string $date, int $walletId)
     {
         return $this->create([
             'wallet_id' => $walletId,
@@ -53,10 +53,10 @@ class ManagementService implements ManagementServiceInterface
         ]);
     }
 
-    public function getTotalWin(string $result)
+
+
+    public function getTotalValueByColumn(string $column)
     {
-        return Match($result) {
-            'win', 'draw', 'loss' => 1,
-        };
+        return $this->managementRepository->getTotalValueByColumn($column);
     }
 }

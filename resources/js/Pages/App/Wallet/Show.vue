@@ -272,14 +272,18 @@ const assertivenessChartSeries = [props.wallet.qtdWin, props.wallet.qtdLoss]
 
 //START BAR CHART MONTH
 const barSeriesMonth = [
-
     {
-        name: 'Lucro',
-        data: [props.wallet.result, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+        name: 'Receita',
+        data: [props.management.valueWin, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
     },
     {
         name: 'Prejuizo',
-        data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+        data: [props.management.valueLoss, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+    },
+
+    {
+        name: 'Lucro',
+        data: [props.management.profit, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
     },
 ]
 let barOptionsMonth = reactive({
@@ -290,7 +294,7 @@ let barOptionsMonth = reactive({
     theme: {
         mode: 'light'
     },
-    colors: ['#00e396', '#ff788f'],
+
     plotOptions: {
         bar: {
             horizontal: false,

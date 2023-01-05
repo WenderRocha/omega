@@ -38,7 +38,7 @@ class TradeService implements TradeServiceInterface
 
       $valueTotalWin = $this->getTotalValueByResult($managementId, 'win');
       $valueTotalLoss = $this->getTotalValueByResult($managementId, 'loss');
-      $profit = $valueTotalWin - $valueTotalLoss;
+      $profit = $this->managementService->getTotalValueByColumn('profit');
 
         $this->walletService->update($management->wallet->id, [
             'result' => $profit,
